@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.marco.ristorante.MainActivity"
+    android:background="#ff0000">
+
+    <TextView
+        android:id="@+id/titolo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App Ristorante"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffdb00"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/bottone_lista_ordinazioni"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titolo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="Lista ordinazioni"
+        android:onClick="openListaOrdinazioni"/>
+
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bottone_lista_ordinazioni"
+        android:layout_centerHorizontal="true"
+        android:text="aggiungi ordinazione"
+        android:layout_marginTop="20dp"
+        android:onClick="openAggiungiOrdinazione"/>
+
+</RelativeLayout>

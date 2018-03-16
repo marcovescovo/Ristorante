@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Ristorante</string>
+
+    <string-array name="tipo_piatto">
+        <item>Bevanda</item>
+        <item>Antipasto</item>
+        <item>Primo piatto</item>
+        <item>Secondo piatto</item>
+        <item>Dolce</item>
+        <item>Vino</item>
+    </string-array>
+
+    <string-array name="specifiche_bevanda">
+        <item>Coca Cola</item>
+        <item>Birra</item>
+    </string-array>
+
+    <string-array name="specifiche_antipasto">
+        <item>Salumi e formaggi</item>
+        <item>Mix pesce</item>
+    </string-array>
+
+    <string-array name="specifiche_primo">
+        <item>Spaghetti col sugo</item>
+        <item>Tortellini in brodo</item>
+    </string-array>
+
+    <string-array name="specifiche_secondo">
+        <item>Fiorentina</item>
+        <item>Orata</item>
+    </string-array>
+
+    <string-array name="specifiche_dolce">
+        <item>Tiramisù</item>
+        <item>Gelato</item>
+    </string-array>
+
+    <string-array name="specifiche_vino">
+        <item>Tavernello</item>
+        <item>Champagne</item>
+    </string-array>
+</resources>
