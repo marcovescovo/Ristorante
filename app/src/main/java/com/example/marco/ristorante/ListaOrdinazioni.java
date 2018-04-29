@@ -13,16 +13,32 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.marco.ristorante.data.DBManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ListaOrdinazioni extends AppCompatActivity {
-
-    private DBManager db=MainActivity.db;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_ordinazioni);
-        aggiornaOrdinazioni();
+        try {
+            aggiornaOrdinazioni();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void eliminaOrdinazione(View view){
@@ -59,7 +75,7 @@ public class ListaOrdinazioni extends AppCompatActivity {
         TextView tipo_ordinazione=new TextView(this);
         tipo_ordinazione.setWidth(110);
         tipo_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        tipo_ordinazione.setText(text_tipo_ordinazione+":");
+        tipo_ordinazione.setText(text_tipo_ordinazione);
         tipo_ordinazione.setTextSize(15);
         tipo_ordinazione.setTextColor(000000);
         tipo_ordinazione.setLeft(5);
@@ -107,20 +123,49 @@ public class ListaOrdinazioni extends AppCompatActivity {
         lista_ordinazioni.addView(ordinazione);
     }
 
-    public void aggiornaOrdinazioni(){
-        Cursor cursor=db.query();
-        if(cursor != null) {
-            cursor.moveToFirst();
-            for (int i = 0; i < cursor.getCount(); i++) {
-                String tipo_ordinazione = cursor.getString(1);
-                String specifiche_ordinazione = cursor.getString(2);
-                String ora_ordinazione = cursor.getString(3);
-                int tavolo_ordinazione = cursor.getInt(4);
-                String note = cursor.getString(5);
-
-                creaOrdinazione(tipo_ordinazione, specifiche_ordinazione, ora_ordinazione, tavolo_ordinazione, note);
+    public static String richiestaJSON(String urlString) throws ProtocolException, IOException {
+        String responsestring="";
+        URL url = new URL(urlString);
+        HttpURLConnection c = (HttpURLConnection)url.openConnection();
+        c.setRequestMethod("GET");
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()))) {
+            String str;
+            while ((str = in.readLine()) != null) {
+                responsestring += str+"\n";
             }
-            cursor.close();
+            //closing stream
+        }
+        return responsestring;
+    }
+
+    public static ArrayList<HashMap<String,String>> listaMapOrdini(String JSON) throws JSONException {
+        ArrayList<HashMap<String,String>> lMap=new ArrayList<>();
+        JSONObject obj = new JSONObject(JSON);
+        JSONObject ordini = obj.getJSONObject("ordini");
+        JSONArray arr = ordini.getJSONArray("ordine");
+        for (int i = 0; i < arr.length(); i++){
+            HashMap<String,String> map=new HashMap<>();
+            String tipo = arr.getJSONObject(i).getString("tipo");
+            String specifiche = arr.getJSONObject(i).getString("specifiche");
+            String ora = arr.getJSONObject(i).getString("ora");
+            String tavolo = arr.getJSONObject(i).getString("tavolo");
+            String note = arr.getJSONObject(i).getString("note");
+            map.put("tipo", tipo);
+            map.put("specifiche", specifiche);
+            map.put("ora", ora);
+            map.put("tavolo", tavolo);
+            map.put("note", note);
+            lMap.add(map);
+        }
+        return lMap;
+    }
+
+    public void aggiornaOrdinazioni() throws IOException, JSONException {
+        String url="http://192.168.1.100:8080/WebServer/webresources/controller/getordini";
+        String json=richiestaJSON(url);
+        ArrayList<HashMap<String,String>> lMap=listaMapOrdini(json);
+        for(HashMap<String,String> map:lMap){
+            creaOrdinazione(map.get("tipo"),map.get("specifiche"),map.get("ora"),Integer.getInteger(map.get("tavolo")),map.get("note"));
         }
     }
 }

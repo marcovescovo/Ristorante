@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.example.marco.ristorante.data.DBManager;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -18,7 +16,6 @@ import java.util.GregorianCalendar;
 public class AggiungiOrdinazione extends AppCompatActivity {
 
     protected static Integer tavolo;
-    private DBManager db=MainActivity.db;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +91,6 @@ public class AggiungiOrdinazione extends AppCompatActivity {
         String ora=calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
 
         EditText note=(EditText)findViewById(R.id.edit_note);
-
-        boolean fatto=false;
-        fatto=db.salva(spinner_tipo_ordine.getSelectedItem().toString(),spinner_specifiche.getSelectedItem().toString(),ora,tavolo.toString(),note.getText().toString());
-
 
         Intent i=new Intent(this,MainActivity.class);
         startActivity(i);
