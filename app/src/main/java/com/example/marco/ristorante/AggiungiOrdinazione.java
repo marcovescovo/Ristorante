@@ -1,14 +1,21 @@
 package com.example.marco.ristorante;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -80,17 +87,25 @@ public class AggiungiOrdinazione extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void inviaOrdine(View view){
+
+
+    public void inviaOrdine(View view) {
 
         Spinner spinner_tipo_ordine=(Spinner)findViewById(R.id.spinner_tipo_piatto);
+        String tipo=spinner_tipo_ordine.getSelectedItem().toString();
         Spinner spinner_specifiche=(Spinner)findViewById(R.id.spinner_specifiche);
+        String specifiche=spinner_specifiche.getSelectedItem().toString();
 
         Date data = new Date();
         Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
         calendar.setTime(data);   // assigns calendar to given date
+        String minuto=((Integer)calendar.get(Calendar.MINUTE)).toString();
+        if (minuto.length()<2){minuto="0"+minuto;}
         String ora=calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
-
         EditText note=(EditText)findViewById(R.id.edit_note);
+
+        RunnableOrdine ro=new RunnableOrdine(tipo,specifiche,ora,tavolo.toString(),note.getText().toString());
+        new Thread(ro).start();
 
         Intent i=new Intent(this,MainActivity.class);
         startActivity(i);
