@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -25,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,7 +36,6 @@ public class ListaOrdinazioni extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_ordinazioni);
-        nuovoOrdine();
         try {
             aggiornaOrdinazioni();
         } catch (IOException e) {
@@ -45,8 +46,8 @@ public class ListaOrdinazioni extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    public void nuovoOrdine(){
-        LinearLayout lista_ordinazioni=(LinearLayout) findViewById(R.id.lista_ordinazioni);
+    public void nuovoOrdine(final Ordine o){
+        ListView lista_ordinazioni=(ListView) findViewById(R.id.listview_ordini);
 
         LinearLayout ordinazione=new LinearLayout(this);
         ordinazione.setOrientation(LinearLayout.HORIZONTAL);
@@ -55,7 +56,7 @@ public class ListaOrdinazioni extends AppCompatActivity {
         TextView tipo_ordinazione=new TextView(this);
         tipo_ordinazione.setWidth(110);
         tipo_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        tipo_ordinazione.setText("secondo");
+        tipo_ordinazione.setText(o.getTipo()+":");
         tipo_ordinazione.setTextSize(15);
         tipo_ordinazione.setTextColor(000000);
         tipo_ordinazione.setLeft(5);
@@ -64,14 +65,14 @@ public class ListaOrdinazioni extends AppCompatActivity {
         TextView specifiche_ordinazione=new TextView(this);
         specifiche_ordinazione.setWidth(120);
         specifiche_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        specifiche_ordinazione.setText("bistecca");
+        specifiche_ordinazione.setText(o.getSpecifiche());
         specifiche_ordinazione.setTextColor(000000);
         specifiche_ordinazione.setTop(23);
 
         TextView ora_ordinazione=new TextView(this);
         ora_ordinazione.setWidth(50);
         ora_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        ora_ordinazione.setText("20:20");
+        ora_ordinazione.setText(o.getOra());
         ora_ordinazione.setTextColor(000000);
         ora_ordinazione.setTypeface(null, Typeface.BOLD);
         ora_ordinazione.setTop(23);
@@ -80,7 +81,7 @@ public class ListaOrdinazioni extends AppCompatActivity {
         Button bottone_ordinazione=new Button(this);
         bottone_ordinazione.setWidth(50);
         bottone_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        bottone_ordinazione.setText("8");
+        bottone_ordinazione.setText(o.getTavolo());
         bottone_ordinazione.setTop(23);
         bottone_ordinazione.setLeft(10);
         bottone_ordinazione.setOnClickListener(new View.OnClickListener() {
@@ -95,18 +96,18 @@ public class ListaOrdinazioni extends AppCompatActivity {
         ordinazione.addView(bottone_ordinazione);
         ordinazione.setOnLongClickListener(new View.OnLongClickListener(){
             public boolean onLongClick(View arg0) {
-                creaAlert("NOTE","sangue");
+                creaAlert("NOTE",o.getNote());
                 return false;
             }
         });
 
-        lista_ordinazioni.addView(ordinazione);
+        lista_ordinazioni.addFooterView(ordinazione);
     }
 
     public void eliminaOrdinazione(View view){
-        LinearLayout ordinazione=(LinearLayout)view.getParent().getParent();
-        ViewGroup ordinazioni = (ViewGroup) ordinazione.getParent();
-        ordinazioni.removeView(ordinazione);
+        LinearLayout ordinazione=(LinearLayout)view.getParent();
+        ListView lw=(ListView) findViewById(R.id.listview_ordini);
+        lw.removeView(ordinazione);
     }
 
     public void creaAlert(String titolo, String testo){
@@ -127,65 +128,6 @@ public class ListaOrdinazioni extends AppCompatActivity {
                 .show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    public void creaOrdinazione(String text_tipo_ordinazione, String text_specifiche_ordinazione, String text_ora_ordinazione, int text_tavolo_ordinazione, final String note_ordinazione){
-        LinearLayout lista_ordinazioni=(LinearLayout) findViewById(R.id.lista_ordinazioni);
-
-        LinearLayout ordinazione=new LinearLayout(this);
-        ordinazione.setOrientation(LinearLayout.HORIZONTAL);
-        ordinazione.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 60));
-
-        TextView tipo_ordinazione=new TextView(this);
-        tipo_ordinazione.setWidth(110);
-        tipo_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        tipo_ordinazione.setText(text_tipo_ordinazione);
-        tipo_ordinazione.setTextSize(15);
-        tipo_ordinazione.setTextColor(000000);
-        tipo_ordinazione.setLeft(5);
-        tipo_ordinazione.setTop(23);
-
-        TextView specifiche_ordinazione=new TextView(this);
-        specifiche_ordinazione.setWidth(120);
-        specifiche_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        specifiche_ordinazione.setText(text_specifiche_ordinazione);
-        specifiche_ordinazione.setTextColor(000000);
-        specifiche_ordinazione.setTop(23);
-
-        TextView ora_ordinazione=new TextView(this);
-        ora_ordinazione.setWidth(50);
-        ora_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        ora_ordinazione.setText(text_ora_ordinazione);
-        ora_ordinazione.setTextColor(000000);
-        ora_ordinazione.setTypeface(null, Typeface.BOLD);
-        ora_ordinazione.setTop(23);
-        ora_ordinazione.setLeft(10);
-
-        Button bottone_ordinazione=new Button(this);
-        bottone_ordinazione.setWidth(50);
-        bottone_ordinazione.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        bottone_ordinazione.setText(text_tavolo_ordinazione);
-        bottone_ordinazione.setTop(23);
-        bottone_ordinazione.setLeft(10);
-        bottone_ordinazione.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                eliminaOrdinazione(v);
-            }
-        });
-
-        ordinazione.addView(tipo_ordinazione);
-        ordinazione.addView(specifiche_ordinazione);
-        ordinazione.addView(ora_ordinazione);
-        ordinazione.addView(bottone_ordinazione);
-        ordinazione.setOnLongClickListener(new View.OnLongClickListener(){
-            public boolean onLongClick(View arg0) {
-                creaAlert("NOTE",note_ordinazione);
-                return false;
-            }
-        });
-
-        lista_ordinazioni.addView(ordinazione);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String richiestaJSON(String urlString) throws ProtocolException, IOException {
         String responsestring="";
@@ -197,40 +139,34 @@ public class ListaOrdinazioni extends AppCompatActivity {
             while ((str = in.readLine()) != null) {
                 responsestring += str+"\n";
             }
-            //closing stream
         }
         return responsestring;
     }
 
-    public static ArrayList<HashMap<String,String>> listaMapOrdini(String JSON) throws JSONException {
-        ArrayList<HashMap<String,String>> lMap=new ArrayList<>();
-        JSONObject obj = new JSONObject(JSON);
-        JSONObject ordini = obj.getJSONObject("ordini");
-        JSONArray arr = ordini.getJSONArray("ordine");
+    public static ArrayList<Ordine> getListaOrdini(String JSON) throws JSONException {
+
+        ArrayList<Ordine> lOrdini=new ArrayList<>();
+        JSONArray arr = new JSONArray(JSON);
         for (int i = 0; i < arr.length(); i++){
-            HashMap<String,String> map=new HashMap<>();
-            String tipo = arr.getJSONObject(i).getString("tipo");
-            String specifiche = arr.getJSONObject(i).getString("specifiche");
-            String ora = arr.getJSONObject(i).getString("ora");
-            String tavolo = arr.getJSONObject(i).getString("tavolo");
-            String note = arr.getJSONObject(i).getString("note");
-            map.put("tipo", tipo);
-            map.put("specifiche", specifiche);
-            map.put("ora", ora);
-            map.put("tavolo", tavolo);
-            map.put("note", note);
-            lMap.add(map);
+            Ordine ordine=new Ordine();
+            ordine.setId(arr.getJSONObject(i).getInt("id"));
+            ordine.setTipo(arr.getJSONObject(i).getString("tipo"));
+            ordine.setSpecifiche(arr.getJSONObject(i).getString("specifiche"));
+            ordine.setOra(arr.getJSONObject(i).getString("ora"));
+            ordine.setTavolo(arr.getJSONObject(i).getString("tavolo"));
+            ordine.setNote(arr.getJSONObject(i).getString("note"));
+            lOrdini.add(ordine);
         }
-        return lMap;
+        return lOrdini;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void aggiornaOrdinazioni() throws IOException, JSONException {
-        String url="http://192.168.1.100:8080/WebApp/webresources/manager/getordini";
+        String url="http://192.168.1.100:8080/WebApp/webresources/manager/getjsonordini";
         String json=richiestaJSON(url);
-        ArrayList<HashMap<String,String>> lMap=listaMapOrdini(json);
-        for(HashMap<String,String> map:lMap){
-            creaOrdinazione(map.get("tipo"),map.get("specifiche"),map.get("ora"),Integer.getInteger(map.get("tavolo")),map.get("note"));
+        ArrayList<Ordine> lOrdini=getListaOrdini(json);
+        for(Ordine ordine:lOrdini){
+            nuovoOrdine(ordine);
         }
     }
 }

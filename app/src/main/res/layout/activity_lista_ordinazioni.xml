@@ -8,10 +8,10 @@
     android:orientation="vertical"
     android:background="#ff0000">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview_ordini">
 
         <LinearLayout
             android:id="@+id/ordinazione1"
@@ -54,119 +54,62 @@
                 android:onClick="eliminaOrdinazione"/>
 
         </LinearLayout>
+        <!--<LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000"></View>
+            <LinearLayout
+                android:id="@+id/ordinazione1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:text="Primo Piatto:"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginLeft="5dp"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:text="Spaghetti col sugo"
+                    android:layout_marginTop="23dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal">
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="20:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginLeft="10dp"/>
 
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="Secondo Piatto:"
-                android:textSize="15dp"
-                android:textColor="#000000"
-                android:layout_marginTop="23dp"
-                android:layout_marginLeft="5dp"/>
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginLeft="10dp"
+                    android:onClick="eliminaOrdinazione"/>
 
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:text="Fiorentina"
-                android:layout_marginTop="23dp"/>
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="20:30"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:layout_marginTop="23dp"
-                android:layout_marginLeft="10dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000"></View>
 
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:layout_marginTop="23dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="eliminaOrdinazione"/>
+        </LinearLayout>-->
 
-        </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000"></View>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lista_ordinazioni"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="Dolce:"
-                android:textSize="15dp"
-                android:textColor="#000000"
-                android:layout_marginTop="23dp"
-                android:layout_marginLeft="5dp"/>
-
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:text="Tiramisù"
-                android:layout_marginTop="23dp"/>
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="21:00"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:layout_marginTop="23dp"
-                android:layout_marginLeft="10dp"/>
-
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="6"
-                android:layout_marginTop="23dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="eliminaOrdinazione"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000"></View>
-
-    </LinearLayout>
+    </ListView>
 
 </LinearLayout>
