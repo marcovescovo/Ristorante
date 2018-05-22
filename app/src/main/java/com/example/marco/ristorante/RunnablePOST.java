@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class RunnableOrdine implements Runnable {
+public class RunnablePOST implements Runnable {
 
     private String tipo;
     private String specifiche;
@@ -14,7 +14,7 @@ public class RunnableOrdine implements Runnable {
     private String tavolo;
     private String note;
 
-    public RunnableOrdine(String tipo,String specifiche,String ora,String tavolo,String note){
+    public RunnablePOST(String tipo,String specifiche,String ora,String tavolo,String note){
         this.note=note;
         this.ora=ora;
         this.specifiche=specifiche;

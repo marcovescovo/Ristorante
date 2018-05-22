@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 
@@ -32,22 +33,22 @@ import java.util.HashMap;
 
 public class ListaOrdinazioni extends AppCompatActivity {
 
+    protected static ArrayList<Ordine> lOrdini=new ArrayList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_ordinazioni);
         try {
             aggiornaOrdinazioni();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public void nuovoOrdine(final Ordine o){
-        ListView lista_ordinazioni=(ListView) findViewById(R.id.listview_ordini);
+        LinearLayout lista_ordinazioni=(LinearLayout) findViewById(R.id.listview_ordini);
 
         LinearLayout ordinazione=new LinearLayout(this);
         ordinazione.setOrientation(LinearLayout.HORIZONTAL);
@@ -100,13 +101,16 @@ public class ListaOrdinazioni extends AppCompatActivity {
                 return false;
             }
         });
-
-        lista_ordinazioni.addFooterView(ordinazione);
+        try{
+            lista_ordinazioni.addView(ordinazione);
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     public void eliminaOrdinazione(View view){
         LinearLayout ordinazione=(LinearLayout)view.getParent();
-        ListView lw=(ListView) findViewById(R.id.listview_ordini);
+        LinearLayout lw=(LinearLayout) findViewById(R.id.listview_ordini);
         lw.removeView(ordinazione);
     }
 
@@ -134,11 +138,14 @@ public class ListaOrdinazioni extends AppCompatActivity {
         URL url = new URL(urlString);
         HttpURLConnection c = (HttpURLConnection)url.openConnection();
         c.setRequestMethod("GET");
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()))) {
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
             String str;
             while ((str = in.readLine()) != null) {
                 responsestring += str+"\n";
             }
+        }catch(Exception e){
+            System.out.println(e);
         }
         return responsestring;
     }
@@ -162,9 +169,8 @@ public class ListaOrdinazioni extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void aggiornaOrdinazioni() throws IOException, JSONException {
-        String url="http://192.168.1.100:8080/WebApp/webresources/manager/getjsonordini";
-        String json=richiestaJSON(url);
-        ArrayList<Ordine> lOrdini=getListaOrdini(json);
+        RunnableGET rg=new RunnableGET();
+        new Thread(rg).start();
         for(Ordine ordine:lOrdini){
             nuovoOrdine(ordine);
         }

@@ -104,7 +104,7 @@ public class AggiungiOrdinazione extends AppCompatActivity {
         String ora=calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
         EditText note=(EditText)findViewById(R.id.edit_note);
 
-        RunnableOrdine ro=new RunnableOrdine(tipo,specifiche,ora,tavolo.toString(),note.getText().toString());
+        RunnablePOST ro=new RunnablePOST(tipo,specifiche,ora,tavolo.toString(),note.getText().toString());
         new Thread(ro).start();
 
         Intent i=new Intent(this,MainActivity.class);
