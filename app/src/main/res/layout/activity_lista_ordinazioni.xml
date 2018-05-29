@@ -3,24 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.marco.ristorante.ListaOrdinazioni"
     android:orientation="vertical"
-    android:background="#ff0000">
+    tools:context="com.example.marco.ristorante.ListaOrdinazioni"
+    android:background="#ff0000"
+    android:id="@+id/linearlayout_ordini">
 
-    <ScrollView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollview_ordini">
-
-        <LinearLayout
-            android:id="@+id/listview_ordini"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-
-        </LinearLayout>
-    </ScrollView>
+        android:id="@+id/listviewordini"></ListView>
 
 </LinearLayout>
