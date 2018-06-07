@@ -26,7 +26,7 @@ public class RunnablePOST implements Runnable {
     private static void sendPost(String tipo,String specifiche,String ora,String tavolo,String note) throws Exception {
 
         String USER_AGENT = "Mozilla/5.0";
-        String url = "http://192.168.1.100:8080/WebApp/webresources/manager/post";
+        String url = "http://192.168.1.7:8080/WebApp/webresources/manager/post";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

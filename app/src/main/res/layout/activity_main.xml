@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.marco.ristorante.MainActivity"
-    android:background="#ff0000">
+    android:background="#ffe5b4">
 
     <TextView
         android:id="@+id/titolo"
@@ -16,7 +16,7 @@
         android:textAlignment="center"
         android:layout_margin="20dp"
         android:layout_centerHorizontal="true"
-        android:textColor="#ffdb00"
+        android:textColor="#cc7722"
         android:textStyle="bold"/>
 
     <Button

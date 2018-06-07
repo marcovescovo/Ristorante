@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.marco.ristorante.ListaOrdinazioni"
-    android:background="#ff0000"
+    android:background="#ffe5b4"
     android:id="@+id/linearlayout_ordini">
 
     <ListView

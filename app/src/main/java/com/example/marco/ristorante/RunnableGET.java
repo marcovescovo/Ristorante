@@ -20,7 +20,7 @@ public class RunnableGET implements Runnable {
     @Override
     public void run() {
         try {
-            String json=richiestaJSON("http://192.168.1.100:8080/WebApp/webresources/manager/getjsonordini");
+            String json=richiestaJSON("http://192.168.1.7:8080/WebApp/webresources/manager/getjsonordini");
             ListaOrdinazioni.lOrdini=getListaOrdini(json);
         } catch (IOException e) {
             e.printStackTrace();

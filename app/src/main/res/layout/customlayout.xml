@@ -14,7 +14,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="23dp"
         android:textSize="15dp"
-        android:textColor="#000000"
+        android:textColor="#cc7722"
         android:text="TextView"
         tools:ignore="RtlCompat" />
 
@@ -26,7 +26,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/textView_tipo"
         android:layout_marginEnd="110dp"
-        android:textColor="#000000"
+        android:textColor="#cc7722"
         android:text="TextView"
         tools:ignore="RtlCompat" />
 
@@ -39,7 +39,7 @@
         android:layout_toEndOf="@+id/textView_specifiche"
         android:text="TextView"
         android:textSize="15dp"
-        android:textColor="#000000"
+        android:textColor="#cc7722"
         tools:ignore="RtlCompat" />
 
     <Button
@@ -49,5 +49,6 @@
         android:layout_alignBaseline="@+id/textView_specifiche"
         android:layout_alignParentEnd="true"
         android:text="0"
-        tools:ignore="RtlCompat" />
+        tools:ignore="RtlCompat"
+        android:onClick="eliminaOrdinazione"/>
 </RelativeLayout>
